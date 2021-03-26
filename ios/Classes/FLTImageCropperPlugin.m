@@ -83,7 +83,13 @@
           cropViewController.aspectRatioLockEnabled = YES;
       }
       
-      [_viewController presentViewController:cropViewController animated:YES completion:nil];
+      //don't use cached vc, as root vc might already presented another vc.
+      UIViewController *viewController = [UIApplication sharedApplication].delegate.window.rootViewController;
+      while(viewController.presentedViewController!=nil){
+          viewController= viewController.presentedViewController;
+      }
+      [viewController presentViewController:cropViewController animated:YES completion:nil];
+      
   } else {
       result(FlutterMethodNotImplemented);
   }
